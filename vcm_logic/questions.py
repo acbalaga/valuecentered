@@ -6,7 +6,7 @@ available.
 """
 
 from dataclasses import dataclass
-from typing import List, Sequence
+from typing import List, Sequence, Tuple
 
 
 @dataclass(frozen=True)
@@ -40,6 +40,37 @@ def _default_options() -> List[str]:
         "Defined and repeatable",
         "Managed with metrics",
         "Optimized and automated",
+    ]
+
+
+def option_explanations() -> List[Tuple[str, str]]:
+    """Provide short guidance for each maturity choice.
+
+    The narratives are intentionally concise placeholders so teams can
+    substitute domain-specific language later without changing the UI layer.
+    """
+
+    return [
+        (
+            "Not started",
+            "No consistent approach exists yet; activities are mostly informal.",
+        ),
+        (
+            "Ad hoc or limited",
+            "Some individual efforts happen but they are not coordinated or measured.",
+        ),
+        (
+            "Defined and repeatable",
+            "Processes are documented and followed with basic governance in place.",
+        ),
+        (
+            "Managed with metrics",
+            "Execution is tracked with quantitative measures and corrective actions.",
+        ),
+        (
+            "Optimized and automated",
+            "Practices are continuously improved, automated where possible, and scaled.",
+        ),
     ]
 
 

@@ -12,6 +12,7 @@ from vcm_logic import (
     compute_maturity_level,
     get_pillars,
     get_top_initiatives,
+    option_explanations,
     overall_average,
     score_responses,
 )
@@ -40,11 +41,38 @@ def _collect_answers(pillars: list[Pillar]) -> Dict[str, str]:
     return answers
 
 
+def _render_option_helper() -> None:
+    """Show concise definitions for each maturity choice."""
+
+    with st.expander("What do these answer choices mean?", expanded=False):
+        for label, description in option_explanations():
+            st.markdown(f"- **{label}** — {description}")
+
+
+def _render_value_helper() -> None:
+    """Offer lightweight guidance on estimating value at stake."""
+
+    st.caption(
+        "Optional: add a rough Potential High-level Payback (PHP) to anchor impact.",
+    )
+    with st.expander("How to estimate a value-at-stake (PHP)?", expanded=False):
+        st.markdown(
+            "\n".join(
+                [
+                    "- Anchor on annualized impact (e.g., savings, margin lift, avoided risk).",
+                    "- Use rough, order-of-magnitude estimates rather than precise forecasts.",
+                    "- If multiple teams contribute, include only the portion tied to this scope.",
+                ]
+            )
+        )
+
+
 def _render_questions(pillars: list[Pillar]) -> Tuple[bool, float | None]:
     """Render the questionnaire form and capture submission state."""
 
     with st.form("assessment_form", clear_on_submit=False):
         st.markdown("## Maturity questions")
+        _render_option_helper()
         for pillar in pillars:
             with st.expander(f"{pillar.name}: {pillar.description}", expanded=True):
                 for question in pillar.questions:
@@ -66,6 +94,7 @@ def _render_questions(pillars: list[Pillar]) -> Tuple[bool, float | None]:
                 "This is session-only and not persisted."
             ),
         )
+        _render_value_helper()
 
         submitted = st.form_submit_button("Calculate maturity")
 
