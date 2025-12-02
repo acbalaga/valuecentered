@@ -38,7 +38,7 @@ def build_markdown_report(
     sections.append(f"**Maturity level:** {maturity_level}")
 
     if value_at_stake is not None:
-        sections.append(f"**Estimated value at stake:** ${value_at_stake:,.0f}")
+        sections.append(f"**Estimated value at stake:** ₱{value_at_stake:,.0f} (PHP)")
 
     sections.append("\n---\n")
 

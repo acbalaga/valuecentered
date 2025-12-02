@@ -53,13 +53,14 @@ def _render_value_helper() -> None:
     """Offer lightweight guidance on estimating value at stake."""
 
     st.caption(
-        "Optional: add a rough Potential High-level Payback (PHP) to anchor impact.",
+        "Optional: add a rough value estimate in Philippine Peso (PHP) to anchor impact.",
     )
-    with st.expander("How to estimate a value-at-stake (PHP)?", expanded=False):
+    with st.expander("How to estimate a value-at-stake in PHP?", expanded=False):
         st.markdown(
             "\n".join(
                 [
                     "- Anchor on annualized impact (e.g., savings, margin lift, avoided risk).",
+                    "- Keep the estimate in PHP to align with local budgeting and approvals.",
                     "- Use rough, order-of-magnitude estimates rather than precise forecasts.",
                     "- If multiple teams contribute, include only the portion tied to this scope.",
                 ]
@@ -82,15 +83,15 @@ def _render_questions(pillars: list[Pillar]) -> Tuple[bool, float | None]:
                         index=0,
                         key=f"resp_{question.id}",
                         horizontal=False,
-                    )
+        )
 
         value_input = st.number_input(
-            "Optional value-at-stake estimate ($)",
+            "Optional value-at-stake estimate (PHP)",
             min_value=0.0,
             step=100000.0,
             key="value_input",
             help=(
-                "Enter a rough estimate of the potential financial upside. "
+                "Enter a rough estimate of the potential financial upside in PHP. "
                 "This is session-only and not persisted."
             ),
         )
@@ -170,7 +171,9 @@ def _render_results(pillars: list[Pillar]) -> None:
     )
 
     if results["value_at_stake"] is not None:
-        st.markdown(f"**Estimated value at stake:** ${results['value_at_stake']:,.0f}")
+        st.markdown(
+            f"**Estimated value at stake:** ₱{results['value_at_stake']:,.0f} (PHP)"
+        )
 
     _pillar_score_chart(pillars, pillar_scores)
     _render_pillar_details(pillars, pillar_scores, results["initiatives"])
